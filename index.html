@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Party Message 🌊</title>
+  <style>
+    /* --- Tổng thể trang --- */
+    body {
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #0072ff, #00c6ff);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* --- Hiệu ứng sóng biển --- */
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 100%;
+      animation: waveMove 6s infinite linear;
+    }
+
+    .wave:nth-child(2) {
+      background: rgba(255, 255, 255, 0.15);
+      animation-duration: 8s;
+      animation-direction: reverse;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* --- Lời chào --- */
+    h1 {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease;
+      text-align: center;
+      max-width: 80%;
+      line-height: 1.6;
+      text-shadow: 0 0 10px rgba(255,255,255,0.4);
+      z-index: 2;
+    }
+
+    h1.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Hiệu ứng chữ bay lên --- */
+    .sunlight {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0.8;
+      animation: floatUp 2s ease-out forwards;
+      color: rgba(255, 255, 255, 0.9);
+      pointer-events: none;
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-80px) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sóng biển -->
+  <div class="wave"></div>
+  <div class="wave"></div>
+
+  <!-- Lời chào -->
+  <h1 id="message">🌻 Chào Mumble Bee,<br> cảm ơn bạn vì đã đến Watch Party.<br> Chúc bạn một ngày rực rỡ như nắng biển! 🌊</h1>
+
+  <script>
+    const message = document.getElementById('message');
+    let shown = false;
+
+    document.body.addEventListener('click', (e) => {
+      // Bật / tắt lời nhắn
+      shown = !shown;
+      message.classList.toggle('show', shown);
+
+      // Tạo hiệu ứng chữ bay như nắng
+      if (shown) {
+        for (let i = 0; i < 8; i++) {
+          const sun = document.createElement('span');
+          sun.className = 'sunlight';
+          sun.textContent = '✨';
+          sun.style.left = (e.pageX + Math.random() * 100 - 50) + 'px';
+          sun.style.top = (e.pageY + Math.random() * 50 - 25) + 'px';
+          sun.style.fontSize = (Math.random() * 16 + 12) + 'px';
+          document.body.appendChild(sun);
+          setTimeout(() => sun.remove(), 2000);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
